@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empresa;
+use App\Models\User;
+use App\Models\Actividad;
 use App\Http\Requests\StoreEmpresaRequest;
 use App\Http\Requests\UpdateEmpresaRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class EmpresaController extends Controller
 {
@@ -13,9 +17,20 @@ class EmpresaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+			// $empresa = Actividad::where('estatus','!=',3)->get()->groupBy('empresa');
+			$empresa = Actividad::where('estatus','!=',3)->groupBy('empresa')->select('empresa', DB::raw('count(*) as total'))->orderBy('total','desc')->first();
+			$empresa = Empresa::find($empresa->empresa);
+
+			$users = Actividad::where('estatus','!=',3)->get()->groupBy('user_id');
+
+
+
+			$collection = collect([
+				'empresa'=>$empresa->nombre,
+
+			]);
+			return $users ;
     }
 
     /**
@@ -45,8 +60,7 @@ class EmpresaController extends Controller
      * @param  \App\Models\Empresa  $empresa
      * @return \Illuminate\Http\Response
      */
-    public function show(Empresa $empresa)
-    {
+    public function show(Empresa $empresa) {
         //
     }
 

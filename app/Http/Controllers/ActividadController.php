@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actividad;
+use App\Models\Empresa;
 use App\Http\Requests\StoreActividadRequest;
 use App\Http\Requests\UpdateActividadRequest;
 
@@ -13,9 +14,17 @@ class ActividadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(){
+			$actividades = Actividad::where('estatus','!=',3)->get(['nombre','nombre_de_user','estatus','empresa']);
+			// $actividades = Actividad::where('estatus','!=',3)->get();
+
+			// foreach ($actividades as $act) {
+			// 	$act->empresa = Empresa::find($act->empresa)->nombre;
+			// }
+
+			$actividades = $actividades->groupBy('empresa');
+
+			return $actividades;
     }
 
     /**
