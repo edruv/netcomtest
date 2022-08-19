@@ -10,7 +10,7 @@ class Actividad extends Model
     use HasFactory;
 
 		protected $fillable = [
-			'nombre','descripcion','user_id','nombre_de_user','estatus','inicio','vencimiento',
+			'nombre','descripcion','user_id','nombre_de_user','estatus','inicio','vencimiento','empresa',
 		];
 
 		public function empresa() {
