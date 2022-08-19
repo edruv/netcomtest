@@ -18,19 +18,20 @@ class EmpresaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-			// $empresa = Actividad::where('estatus','!=',3)->get()->groupBy('empresa');
 			$empresa = Actividad::where('estatus','!=',3)->groupBy('empresa')->select('empresa', DB::raw('count(*) as total'))->orderBy('total','desc')->first();
 			$empresa = Empresa::find($empresa->empresa);
 
-			$users = Actividad::where('estatus','!=',3)->get()->groupBy('user_id');
+			$users_disc = Actividad::where('estatus','!=',3)->where('user_id','!=',null)->groupBy('user_id')->select('user_id', DB::raw('count(*) as total'))->get()->where('total','>=',5)->pluck('user_id');
 
+			$user = User::whereNotIn('id',$users_disc)->get(['id','name']);
 
-
-			$collection = collect([
+			$reqB = collect([
 				'empresa'=>$empresa->nombre,
+				'users_sin_actividades'=>$user,
 
 			]);
-			return $users ;
+
+			return $reqB ;
     }
 
     /**
