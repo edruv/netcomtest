@@ -14,11 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::prefix('empresa')->group(function(){
+	Route::get('/',['App\Http\Controllers\EmpresaController', 'index']);
+});
 
-Route::get('/actividades',['App\Http\Controllers\ActividadController', 'index']);
-Route::get('/pendientes',['App\Http\Controllers\EmpresaController', 'index']);
-Route::get('/pendientes/{empresa}',['App\Http\Controllers\EmpresaController', 'show']);
+Route::prefix('actividad')->group(function(){
+	Route::get('pendientes',['App\Http\Controllers\ActividadController', 'index']);
+	Route::post('/',['App\Http\Controllers\ActividadController', 'store']);
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+	Route::post('asignacion',['App\Http\Controllers\ActividadController', 'asignar']);
+	Route::post('estatus/update',['App\Http\Controllers\ActividadController', 'updateStatus']);
 });
