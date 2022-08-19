@@ -20,13 +20,12 @@ class CreateActividadsTable extends Migration
 						$table->unsignedBigInteger('user_id')->nullable();
 						$table->string('nombre_de_user')->nullable();
 						$table->unsignedBigInteger('estatus')->default(1);
-						$table->date('inicio')->nullable();
-						$table->date('vencimiento')->nullable();
+						$table->date('fecha_inicio')->nullable();
+						$table->date('fecha_vencimiento')->nullable();
 						$table->unsignedBigInteger('empresa');
 						$table->foreign('empresa')->references('id')->on('empresas');
 						$table->foreign('user_id')->references('id')->on('users');
 						$table->foreign('estatus')->references('id')->on('estatuses');
-            $table->timestamps();
         });
     }
 

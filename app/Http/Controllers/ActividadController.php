@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Http\Requests\StoreActividadRequest;
 use App\Http\Requests\UpdateActividadRequest;
 use App\Http\Requests\AsignarActividadRequest;
+use Carbon\Carbon;
 
 class ActividadController extends Controller
 {
@@ -127,6 +128,8 @@ class ActividadController extends Controller
 				"user_id" => $user->id,
 				"nombre_de_user" => $user->name,
 				"estatus" => 2,
+				"fecha_inicio" => Carbon::now()->format('Y-m-d'),
+				"fecha_vencimiento" => Carbon::now()->addDays(6)->format('Y-m-d'),
 			]);
 			// $actividad->user_id = $user->id ;
 			// $actividad->nombre_de_user = $user->name ;
